@@ -8,23 +8,25 @@
 
 import UIKit
 
-class ViewController1: UIViewController {
+class ReadJSON {
+    
+    var city: [City]?
+   
+    static let shared = ReadJSON()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    func getCity () -> [City] {
+        let url = Bundle.main.url(forResource: "city", withExtension: "json")
+        
+        guard let jsonData = url else {
+            print("data not found")
+            return []
+        }
+        
+        guard let data = try? Data(contentsOf: jsonData) else {return []}
+        
+        let city = try? JSONDecoder().decode([City].self, from: data)
+        
+        return city!
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
